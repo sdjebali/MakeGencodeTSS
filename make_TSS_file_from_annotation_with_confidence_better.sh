@@ -32,6 +32,9 @@ then
     exit 1
 fi
 
+path="`dirname \"$0\"`" # relative path
+rootDir="`( cd \"$path\" && pwd )`" # absolute path
+
 # Initialize variables
 ######################
 annotation=$1
@@ -43,9 +46,9 @@ fi
     
 # Programs
 ##########
-EXTRACT5p=Awk/extract_most_5p.awk
-CUTGFF=Awk/cutgff.awk
-GFF2GFF=Awk/gff2gff.awk
+EXTRACT5p=$rootDir/Awk/extract_most_5p.awk
+CUTGFF=$rootDir/Awk/cutgff.awk
+GFF2GFF=$rootDir/Awk/gff2gff.awk
 
 
 ##########################################################
