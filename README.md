@@ -1,10 +1,12 @@
 MakeGencodeTSS
 ==============
 
-Makes distinct TSS of each gene from a Gencode annotation in GTF format
+Makes distinct TSS of each gene from a Gencode or an ensembl gene annotation file in GTF format
+
+There are two versions of the same script here, one for Gencode and one for ensembl.
 
 This script takes as input:
-- a Gencode annotation file in GTF format (mandatory)
+- a Gencode or Ensembl annotation file in GTF format (mandatory)
 - a list of transcript biotypes to consider in this file (optional, default: no filtering)
 
 This script provides as output the following files in the directory where it is executed:

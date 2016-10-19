@@ -65,7 +65,7 @@ else
 awk -v fileRef=$trbiotypes 'BEGIN{while(getline < fileRef >0){biotype["\""$1"\"\;"]=1;}} $3=="exon"{i=9; while($i!="transcript_biotype"){i+=2}if(($i=="transcript_biotype")&&(biotype[$(i+1)]==1)){print}}' $annotation | awk -v fldno=12 -f $EXTRACT5p > $annotbase\_exons_most5p.gff
 fi
 
-# b. Then the most 5' bp of each transcript for each gene (not that all tss are said to come from gencode)
+# b. Then the most 5' bp of each transcript for each gene (not that all tss are said to come from ensembl)
 ##########################################################################################################
 #    with associated confidence level= low confidence level whenever the tss belongs to a tr where the CDS start
 #################################################################################################################
@@ -74,7 +74,7 @@ fi
 echo I am extracting the most 5\' bp of each transcript for each gene, >&2
 echo associating a low confidence level when the tss comes from a tr where the cds_start_NF tag was set, >&2
 echo and adding the list of tr and of tr biotypes the tss comes from. >&2
-awk '{i=9; while($i!="transcript_biotype"){i++}if($i=="transcript_biotype"){split($(i+1),c,"\""); trbiot=c[2];} ($0~/cds_start_NF/) ? confidence="low" : confidence="not_low"; ($7=="+") ? tsspos=$4 : tsspos=$5; split($10,a,"\""); split($12,b,"\""); print $1, "Gencode", "CapSite", tsspos, tsspos, ".", $7, ".", "gene_id", a[2], "tr", b[2], "trbiot", trbiot, "confidence", confidence;}' $annotbase\_exons_most5p.gff | awk -f $GFF2GFF > $annotbase\_capped_sites.gff
+awk '{i=9; while($i!="transcript_biotype"){i++}if($i=="transcript_biotype"){split($(i+1),c,"\""); trbiot=c[2];} ($0~/cds_start_NF/) ? confidence="low" : confidence="not_low"; ($7=="+") ? tsspos=$4 : tsspos=$5; split($10,a,"\""); split($12,b,"\""); print $1, "Ensembl", "CapSite", tsspos, tsspos, ".", $7, ".", "gene_id", a[2], "tr", b[2], "trbiot", trbiot, "confidence", confidence;}' $annotbase\_exons_most5p.gff | awk -f $GFF2GFF > $annotbase\_capped_sites.gff
 
 # c. Finally collapse TSS per gene and put a low confidence level when the collapsed tss is composed of at least one low tss
 #############################################################################################################################
